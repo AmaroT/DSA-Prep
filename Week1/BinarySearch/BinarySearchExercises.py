@@ -71,7 +71,7 @@ def count_occurrences(arr, target):
         i -= 1     # Step left (decrement index)
 
     i = found_idx + 1 # Start *just right* of found: i = 0 + 1 = 1
-    while i >= 0 and arr[i] == target: # Check: In Bounds *and* matches?
+    while i < len(arr) and arr[i] == target: # Check: In Bounds *and* matches?
         count += 1 # Tally this extra!
         i += 1      # Step right (increment index)
     return count
