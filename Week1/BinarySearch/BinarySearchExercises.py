@@ -32,7 +32,7 @@ print(binary_search([-5, -3, 0, 2], -6))
 # Count Occurences: Modify to return how many times "target" appears (not just index). 
 # Starter: After finding one, scan left/right from "mid" to count.
 
-# def count_occurances(arr, target):
+# def count_occurrences(arr, target):
 #     low, high = 0, len(arr) - 1
 #     target_count = 0
 #     while low <= high:
@@ -46,9 +46,9 @@ print(binary_search([-5, -3, 0, 2], -6))
 #         else:
 #                 low = mid + 1
 #                 return - 1
-# print(count_occurances([1, 1, 2, 3, 5], 1))
+# print(count_occurrences([1, 1, 2, 3, 5], 1))
 
-def count_occurences(arr, target): 
+def count_occurrences(arr, target): 
     low,high = 0, len(arr) -1
     found_idx = -1      # Track where its found
     while low <= high:
@@ -78,6 +78,34 @@ def count_occurences(arr, target):
     
 
 # Test it
-print(count_occurences([1, 1, 2, 3, 5], 1)) # output: 2
-print(count_occurences([1, 3, 5, 7], 5)) # output: 1
-print(count_occurences([2, 2, 2, 3], 2)) #output: 3
+print(count_occurrences([1, 1, 2, 3, 5], 1)) # output: 2
+print(count_occurrences([1, 3, 5, 7], 5)) # output: 1
+print(count_occurrences([2, 2, 2, 3], 2)) #output: 3
+
+# Exercise 3 - First Occurence(Leftmost Duplicate Finder)
+# Given sorted "arr" and "target" , return the lowest index where "target" appears. If not found, -1.
+# Example: arr = [1,2,2,2,3], target = 2, Return -> 1(not 2 o 3- the leftmost)
+# Why this variant? Basic binary might return any index(e.g., middle 2). To bias left, we tweak the shrink logic: When equal, don't stop-peek left more (set high = mid, not break). This "hugs the left edge" of duplicates. 
+# Starter Code(Build on your binary template - paste into a new func like "first_occurrence(arr,target)"):
+
+def first_occurrence(arr, target):
+    low, high = 0, len(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            # Don't return yet-check if there's one left-er
+            high = mid - 1
+        elif arr[mid] > target:
+            high = mid - 1
+        else:
+            low = mid + 1
+    # After loop: low is the first spot (if exists)
+    if low < len(arr) and arr[low] == target:
+        return low
+    return -1
+
+# Test
+print(first_occurrence([1,2,2,2,3], 2)) # 1
+print(first_occurrence([1,3,5], 3))     # 1
+print(first_occurrence([1,2,3], 0))     # -1
+
